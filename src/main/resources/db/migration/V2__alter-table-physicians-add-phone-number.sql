@@ -1,0 +1,1 @@
+alter table physicians add phone_number varchar(20) not null
