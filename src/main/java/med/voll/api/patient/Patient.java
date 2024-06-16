@@ -49,4 +49,9 @@ public class Patient {
             this.name = data.name();
         }
     }
+
+    public void delete() {
+        this.active = false;
+    }
+
 }
