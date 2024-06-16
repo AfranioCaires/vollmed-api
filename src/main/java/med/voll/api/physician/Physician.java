@@ -16,6 +16,7 @@ public class Physician {
     private String name;
     private String email;
     private String crm;
+    private Boolean active;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -33,6 +34,7 @@ public class Physician {
         this.specialty = data.specialty();
         this.phoneNumber = data.phoneNumber();
         this.address = new Address(data.address());
+        this.active = true;
     }
 
     public void updateData(PhysicianUpdateData data) {
@@ -49,5 +51,9 @@ public class Physician {
             this.address.updateData(data.address());
         }
 
+    }
+
+    public void delete() {
+        this.active = false;
     }
 }
