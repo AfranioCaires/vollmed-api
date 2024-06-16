@@ -1,10 +1,10 @@
-package med.voll.api.patient;
+package med.voll.api.domain.patient;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.address.Address;
+import med.voll.api.domain.address.Address;
 
 
 @Getter

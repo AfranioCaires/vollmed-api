@@ -1,4 +1,4 @@
-package med.voll.api.physician;
+package med.voll.api.domain.physician;
 
 public enum Specialty {
     ORTOPEDIA,

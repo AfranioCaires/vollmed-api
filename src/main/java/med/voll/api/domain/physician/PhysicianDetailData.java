@@ -1,6 +1,6 @@
-package med.voll.api.physician;
+package med.voll.api.domain.physician;
 
-import med.voll.api.address.Address;
+import med.voll.api.domain.address.Address;
 
 public record PhysicianDetailData(
         Long id,
