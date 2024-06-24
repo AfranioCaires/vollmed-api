@@ -1,6 +1,7 @@
 package med.voll.api.infrastructure.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,6 +17,11 @@ import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestControllerAdvice
 public class ErrorHandler {
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity handleValidation(ValidationException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity handle404() {
