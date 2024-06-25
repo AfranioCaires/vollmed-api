@@ -2,18 +2,14 @@ package med.voll.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.voll.api.domain.appointment.Appointment;
-import med.voll.api.domain.appointment.AppointmentData;
-import med.voll.api.domain.appointment.AppointmentDetailData;
-import med.voll.api.domain.appointment.AppointmentRepository;
+import med.voll.api.domain.appointment.*;
 import med.voll.api.service.AppointmentSchedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("consultas")
@@ -27,11 +23,15 @@ public class AppointmentController {
 
     public ResponseEntity<Object> createAppointment (@RequestBody @Valid AppointmentData data, UriComponentsBuilder uriBuilder){
         var dto = appointmentSchedule.schedule(data);
-
-        var appointment = new Appointment(data);
-
-        var uri = uriBuilder.path("/consultas/{id}").buildAndExpand(appointment.getId()).toUri();
-
+        var uri = uriBuilder.path("/consultas/{id}").buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
+
+    @DeleteMapping
+    @Transactional
+    public ResponseEntity cancel(@RequestBody @Valid AppointmentCancelData data) {
+        appointmentSchedule.cancel(data);
+        return ResponseEntity.noContent().build();
+    }
+
 }

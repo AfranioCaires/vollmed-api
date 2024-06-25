@@ -1,11 +1,9 @@
 package med.voll.api.service;
 
 import jakarta.validation.ValidationException;
-import med.voll.api.domain.appointment.Appointment;
-import med.voll.api.domain.appointment.AppointmentData;
-import med.voll.api.domain.appointment.AppointmentDetailData;
-import med.voll.api.domain.appointment.AppointmentRepository;
-import med.voll.api.domain.appointment.validations.AppointmentValidator;
+import med.voll.api.domain.appointment.*;
+import med.voll.api.domain.appointment.validations.cancellation.AppointmentCancellationValidator;
+import med.voll.api.domain.appointment.validations.scheduling.AppointmentValidator;
 import med.voll.api.domain.patient.PatientRepository;
 import med.voll.api.domain.physician.Physician;
 import med.voll.api.domain.physician.PhysicianRepository;
@@ -28,6 +26,9 @@ public class AppointmentSchedule {
 
     @Autowired
     private List<AppointmentValidator> validatorList;
+
+    @Autowired
+    private List<AppointmentCancellationValidator> appointmentCancellationValidators;
 
     public AppointmentDetailData schedule(AppointmentData data) {
 
@@ -69,5 +70,16 @@ public class AppointmentSchedule {
         }
 
         return physicianRepository.choosePhysicianRandomly(data.specialty(), data.date());
+    }
+
+    public void cancel(AppointmentCancelData data) {
+        if (!appointmentRepository.existsById(data.appointmentId())) {
+            throw new ValidationException("Id da consulta informado não existe!");
+        }
+
+        appointmentCancellationValidators.forEach(v -> v.validate(data));
+
+        var appointment = appointmentRepository.getReferenceById(data.appointmentId());
+        appointment.cancel(data.reason());
     }
 }

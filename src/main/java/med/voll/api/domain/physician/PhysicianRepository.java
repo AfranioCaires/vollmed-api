@@ -22,6 +22,8 @@ public interface PhysicianRepository extends JpaRepository<Physician, Long> {
             SELECT a.physician.id FROM Appointment a
             WHERE
             a.date = :date
+            AND
+            a.cancellationReason = null
         )
         ORDER BY rand()
         LIMIT 1

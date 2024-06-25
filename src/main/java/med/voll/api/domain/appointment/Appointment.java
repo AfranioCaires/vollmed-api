@@ -27,9 +27,14 @@ public class Appointment {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    @Column(name = "cancellation_reason")
+    @Enumerated(EnumType.STRING)
+    private CancellationReason cancellationReason;
+
+    public void cancel(CancellationReason reason) {
+        this.cancellationReason = reason;
+    }
+
     private LocalDateTime date;
 
-    public Appointment(AppointmentData data) {
-
-    }
 }

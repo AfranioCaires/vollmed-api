@@ -1,4 +1,4 @@
-package med.voll.api.domain.appointment.validations;
+package med.voll.api.domain.appointment.validations.scheduling;
 
 import jakarta.validation.ValidationException;
 import med.voll.api.domain.appointment.AppointmentData;
@@ -13,7 +13,7 @@ public class PhysicianWithConcurrentAppointmentValidator implements AppointmentV
     private AppointmentRepository appointmentRepository;
 
     public void validate(AppointmentData data) {
-        var isPhysicianNotAvailable = appointmentRepository.existsByPhysicianIdAndDate(data.idPhysician(), data.date());
+        var isPhysicianNotAvailable = appointmentRepository.existsByPhysicianIdAndDateAndCancellationReasonIsNull(data.idPhysician(), data.date());
 
         if (isPhysicianNotAvailable) {
             throw new ValidationException("Médico já possui outra consulta agendada nesse mesmo horário");
