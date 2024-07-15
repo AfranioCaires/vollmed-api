@@ -23,7 +23,7 @@ public interface PhysicianRepository extends JpaRepository<Physician, Long> {
             WHERE
             a.date = :date
             AND
-            a.cancellationReason = null
+            a.cancellationReason is null
         )
         ORDER BY rand()
         LIMIT 1
